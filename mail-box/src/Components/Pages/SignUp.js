@@ -15,9 +15,9 @@ const SignUp = () => {
   function conChangeHandler() {
     setCon(true);
   }
-  //   function navToLogin() {
-  //     history.push("/Login");
-  //   }
+  function navToLogin() {
+    console.log("move to login");
+  }
 
   const loginSubmitHandler = async (e) => {
     e.preventDefault();
@@ -138,20 +138,27 @@ const SignUp = () => {
               Sign Up
             </button>
           </fieldset>
-
-          {/* <button
-            style={{
-              width: "100%",
-              marginTop: "1rem",
-              backgroundColor: "lightgreen",
-              color: "black",
-              height: "10%",
-            }}
-            onClick={navToLogin}
-          >
-            Have an Account? Login
-          </button> */}
         </form>
+      </section>
+      <section
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <button
+          style={{
+            width: "23.5%",
+            marginTop: "1rem",
+            backgroundColor: "lightgray",
+            color: "black",
+            height: "10%",
+            marginLeft: "-2.5%",
+          }}
+          onClick={navToLogin}
+        >
+          Have an Account? Login
+        </button>
       </section>
     </>
   );
