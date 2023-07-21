@@ -1,64 +1,70 @@
 import { useRef, useState } from "react";
-const SignUp = () => {
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
+
+const LogIn = () => {
   const [email, setEmail] = useState(false);
   const [pass, setpass] = useState(false);
-  const [con, setCon] = useState(false);
   const mailInputRef = useRef();
   const passwordInputRef = useRef();
-  const conformInputRef = useRef();
+  const history = useHistory();
+
   function mailChangeHandler() {
     setEmail(true);
   }
   function passChangeHandler() {
     setpass(true);
   }
-  function conChangeHandler() {
-    setCon(true);
-  }
-  function navToLogin() {
-    console.log("move to login");
+  function navToSignUp() {
+    console.log("nva call");
   }
 
   const loginSubmitHandler = async (e) => {
     e.preventDefault();
-
-    if (
-      String(passwordInputRef.current.value) ===
-      String(conformInputRef.current.value)
-    ) {
-      try {
-        const response = await fetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC6DNQiZJtzBZkQEXEDCHYEu-dgj_wwNoA",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              email: mailInputRef.current.value,
-              password: passwordInputRef.current.value,
-              returnSecureToken: true,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (response.ok) {
-          alert("user created successfully.Proceed to Login");
-          console.log("user created successfully.");
+    try {
+      const response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC6DNQiZJtzBZkQEXEDCHYEu-dgj_wwNoA",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: mailInputRef.current.value,
+            password: passwordInputRef.current.value,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (error) {
-        alert(error);
-        console.log(error);
-      }
-    } else {
-      alert("Password does not match!!");
-    }
+      );
+      if (response.ok) {
+        const res = await response.json();
+        //dispatch(authActions.login(String(res.idToken)));
+        history.push("/");
+        localStorage.setItem("token", res.idToken);
+        let re = mailInputRef.current.value;
+        let mail = "";
+        for (let i = 0; i < re.length; i++) {
+          if (re[i] !== "@" && re[i] !== ".") {
+            mail = mail + re[i];
+          }
+        }
+        localStorage.setItem("email", mail);
 
+        console.log("user Logged in successfully.");
+      } else {
+        alert("Login failed!!!");
+      }
+    } catch (error) {
+      alert(error);
+      console.log(error);
+    }
     mailInputRef.current.value = "";
     passwordInputRef.current.value = "";
-    conformInputRef.current.value = "";
     setEmail(false);
     setpass(false);
-    setCon(false);
+  };
+  const forgotPasswordHandler = () => {
+    //history.push("/PassReset");
+    console.log("forgot password");
   };
   return (
     <>
@@ -74,11 +80,7 @@ const SignUp = () => {
       >
         <form
           onSubmit={loginSubmitHandler}
-          style={{
-            width: "50%",
-            justifyContent: "center",
-            height: "100%",
-          }}
+          style={{ width: "50%", justifyContent: "center", height: "100%" }}
         >
           <fieldset>
             <legend
@@ -92,7 +94,7 @@ const SignUp = () => {
                 fontWeight: "bold",
               }}
             >
-              Sign Up
+              Log In
             </legend>
             <label>E-Mail:</label>
             <br />
@@ -116,21 +118,10 @@ const SignUp = () => {
               }}
             />
             <br />
-            <label>Conform password:</label>
-            <br />
-            <input
-              type="password"
-              ref={conformInputRef}
-              onChange={conChangeHandler}
-              style={{
-                width: "90%",
-              }}
-            />
-            <br />
             <br />
             <button
               type="submit"
-              disabled={email && pass && con ? false : true}
+              disabled={email && pass ? false : true}
               style={{
                 width: "40%",
                 height: "20%",
@@ -140,7 +131,7 @@ const SignUp = () => {
                 marginLeft: "30%",
               }}
             >
-              Sign Up
+              Log In
             </button>
           </fieldset>
         </form>
@@ -160,12 +151,29 @@ const SignUp = () => {
             height: "10%",
             marginLeft: "-2.5%",
           }}
-          onClick={navToLogin}
+          onClick={navToSignUp}
         >
-          Have an Account? Login
+          Don't Have an Account? SignUp
         </button>
       </section>
+      <button
+        onClick={forgotPasswordHandler}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          width: "30%",
+          marginTop: "0.5rem",
+          color: "blue",
+          height: "10%",
+          padding: "1px",
+          border: "none",
+          background: "none",
+          marginLeft: "33%",
+        }}
+      >
+        <u>Forgot password</u>
+      </button>
     </>
   );
 };
-export default SignUp;
+export default LogIn;
