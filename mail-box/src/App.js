@@ -1,5 +1,11 @@
+import SignUp from "./Components/Pages/SignUp";
+
 function App() {
-  return <div className="App">Mail</div>;
+  return (
+    <>
+      <SignUp />
+    </>
+  );
 }
 
 export default App;
