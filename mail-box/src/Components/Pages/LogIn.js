@@ -48,10 +48,9 @@ const LogIn = () => {
           }
         }
         localStorage.setItem("email", mail);
-
         console.log("user Logged in successfully.");
       } else {
-        alert("Login failed!!!");
+        alert("Invalid Login details! check your details and try again");
       }
     } catch (error) {
       alert(error);

@@ -4,6 +4,7 @@ import SignUp from "./Components/Pages/SignUp";
 import Home from "./Components/Pages/Home";
 import { Switch } from "react-router-dom/cjs/react-router-dom.min";
 import { Route } from "react-router-dom/cjs/react-router-dom";
+import ComposeMail from "./Components/Pages/ComposeMail";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
             </Route>
             <Route path="/LogIn" exact>
               <LogIn />
+            </Route>
+            <Route path="/ComposeMail" exact>
+              <ComposeMail />
             </Route>
           </Switch>
         </Suspense>
