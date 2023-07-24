@@ -68,27 +68,55 @@ const ComposeMail = () => {
     <>
       <section
         style={{
-          width: "85%",
-          marginLeft: "5%",
-          marginTop: "5%",
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "25px",
+          fontFamily: "Geneva",
+          fontSize: "2rem",
+        }}
+      >
+        <p>Compose Mail</p>
+      </section>
+      <section
+        style={{
+          width: "75%",
+          marginLeft: "12.5%",
+          marginTop: "2%",
           justifyContent: "center",
         }}
       >
-        <label>To</label>
+        <label
+          style={{
+            marginTop: "1%",
+            color: "darkgray",
+          }}
+        >
+          To
+        </label>
         <input
           style={{
+            marginLeft: "0.5%",
             width: "99%",
             border: "none",
             borderBottom: "1px solid ",
             padding: "5px 0",
             backgroundColor: "transparent",
             outline: "none",
+            marginBottom: "5px",
           }}
           ref={toInputRef}
         />
-        <label>Subject</label>
+        <label
+          style={{
+            color: "darkgray",
+          }}
+        >
+          Subject
+        </label>
         <input
           style={{
+            marginLeft: "0.5%",
+            marginBottom: "5px",
             width: "99%",
             border: "none",
             borderBottom: "1px solid ",
@@ -110,7 +138,19 @@ const ComposeMail = () => {
             }
           />
         </fieldset>
-        <button onClick={handleSendMail}>submit</button>
+        <button
+          onClick={handleSendMail}
+          style={{
+            width: "65px",
+            height: "26.5px",
+            marginTop: "10px",
+            color: "white",
+            backgroundColor: "black",
+            borderRadius: "2.5px",
+          }}
+        >
+          send
+        </button>
       </section>
     </>
   );

@@ -5,10 +5,14 @@ import Home from "./Components/Pages/Home";
 import { Switch } from "react-router-dom/cjs/react-router-dom.min";
 import { Route } from "react-router-dom/cjs/react-router-dom";
 import ComposeMail from "./Components/Pages/ComposeMail";
+import Inbox from "./Components/Pages/Inbox";
+import Navig from "./Components/Others/Navig";
 
 function App() {
   return (
     <>
+      <Navig />
+
       <main>
         <Suspense>
           <Switch>
@@ -23,6 +27,9 @@ function App() {
             </Route>
             <Route path="/ComposeMail" exact>
               <ComposeMail />
+            </Route>
+            <Route path="/Inbox">
+              <Inbox />
             </Route>
           </Switch>
         </Suspense>
