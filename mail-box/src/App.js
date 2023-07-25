@@ -7,12 +7,31 @@ import { Route } from "react-router-dom/cjs/react-router-dom";
 import ComposeMail from "./Components/Pages/ComposeMail";
 import Inbox from "./Components/Pages/Inbox";
 import Navig from "./Components/Others/Navig";
+import ViewMail from "./Components/Pages/ViewMail";
 
 function App() {
   return (
     <>
-      <Navig />
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          backgroundColor: "black",
+          height: "100px",
 
+          color: "white",
+        }}
+      >
+        <p
+          style={{
+            marginLeft: "20%",
+            fontSize: "2rem",
+          }}
+        >
+          Firebase Mail Box
+        </p>
+      </div>
+      <Navig />
       <main>
         <Suspense>
           <Switch>
@@ -30,6 +49,9 @@ function App() {
             </Route>
             <Route path="/Inbox">
               <Inbox />
+            </Route>
+            <Route path="/ViewMail">
+              <ViewMail />
             </Route>
           </Switch>
         </Suspense>

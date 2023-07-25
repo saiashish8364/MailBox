@@ -21,9 +21,10 @@ const ComposeMail = () => {
     const content = editorState.getCurrentContent();
     const emailBody = content.getPlainText();
     const data = {
-      from: String(localStorage.getItem("email")),
+      from: String(localStorage.getItem("from")),
       subject: subjectInputRef.current.value,
       body: emailBody,
+      state: "unread",
     };
     try {
       const response = await fetch(
@@ -68,89 +69,95 @@ const ComposeMail = () => {
     <>
       <section
         style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "25px",
-          fontFamily: "Geneva",
-          fontSize: "2rem",
+          marginLeft: "220px",
         }}
       >
-        <p>Compose Mail</p>
-      </section>
-      <section
-        style={{
-          width: "75%",
-          marginLeft: "12.5%",
-          marginTop: "2%",
-          justifyContent: "center",
-        }}
-      >
-        <label
+        <section
           style={{
-            marginTop: "1%",
-            color: "darkgray",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "25px",
+            fontFamily: "Geneva",
+            fontSize: "2rem",
           }}
         >
-          To
-        </label>
-        <input
+          <p>Compose Mail</p>
+        </section>
+        <section
           style={{
-            marginLeft: "0.5%",
-            width: "99%",
-            border: "none",
-            borderBottom: "1px solid ",
-            padding: "5px 0",
-            backgroundColor: "transparent",
-            outline: "none",
-            marginBottom: "5px",
-          }}
-          ref={toInputRef}
-        />
-        <label
-          style={{
-            color: "darkgray",
+            width: "75%",
+            marginLeft: "12.5%",
+            marginTop: "2%",
+            justifyContent: "center",
           }}
         >
-          Subject
-        </label>
-        <input
-          style={{
-            marginLeft: "0.5%",
-            marginBottom: "5px",
-            width: "99%",
-            border: "none",
-            borderBottom: "1px solid ",
-            padding: "5px 0",
-            backgroundColor: "transparent",
-            outline: "none",
-          }}
-          ref={subjectInputRef}
-        />
-        <fieldset
-          style={{
-            marginTop: "15px",
-          }}
-        >
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={(newEditorState) =>
-              setEditorState(newEditorState)
-            }
+          <label
+            style={{
+              marginTop: "1%",
+              color: "darkgray",
+            }}
+          >
+            To
+          </label>
+          <input
+            style={{
+              marginLeft: "0.5%",
+              width: "99%",
+              border: "none",
+              borderBottom: "1px solid ",
+              padding: "5px 0",
+              backgroundColor: "transparent",
+              outline: "none",
+              marginBottom: "5px",
+            }}
+            ref={toInputRef}
           />
-        </fieldset>
-        <button
-          onClick={handleSendMail}
-          style={{
-            width: "65px",
-            height: "26.5px",
-            marginTop: "10px",
-            color: "white",
-            backgroundColor: "black",
-            borderRadius: "2.5px",
-          }}
-        >
-          send
-        </button>
+          <label
+            style={{
+              color: "darkgray",
+            }}
+          >
+            Subject
+          </label>
+          <input
+            style={{
+              marginLeft: "0.5%",
+              marginBottom: "5px",
+              width: "99%",
+              border: "none",
+              borderBottom: "1px solid ",
+              padding: "5px 0",
+              backgroundColor: "transparent",
+              outline: "none",
+            }}
+            ref={subjectInputRef}
+          />
+          <fieldset
+            style={{
+              marginTop: "15px",
+            }}
+          >
+            <Editor
+              editorState={editorState}
+              onEditorStateChange={(newEditorState) =>
+                setEditorState(newEditorState)
+              }
+            />
+          </fieldset>
+          <button
+            onClick={handleSendMail}
+            style={{
+              width: "65px",
+              height: "26.5px",
+              marginTop: "10px",
+              color: "white",
+              backgroundColor: "black",
+              borderRadius: "2.5px",
+            }}
+          >
+            send
+          </button>
+        </section>
       </section>
     </>
   );
