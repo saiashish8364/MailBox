@@ -8,39 +8,52 @@ const ViewMail = () => {
       {containData && (
         <section
           style={{
-            width: "50%",
-            height: "50%",
-            marginLeft: "25%",
+            width: "70%",
+            height: "70%",
+            marginLeft: "275px",
             marginTop: "5%",
           }}
         >
-          <fieldset>
-            <p>From:</p>
-            <div
+          <p>From:</p>
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <button
+              disabled
               style={{
-                display: "flex",
+                marginRight: "5px",
+                width: "35px",
+                height: "35px",
+                borderRadius: "50%",
+                color: "white",
+                backgroundColor: "black",
               }}
             >
-              <button
-                disabled
-                style={{
-                  marginTop: "5px",
-                  marginRight: "5px",
-                  width: "35px",
-                  height: "35px",
-                  borderRadius: "50%",
-                  color: "white",
-                  backgroundColor: "black",
-                }}
-              >
-                p
-              </button>
-              <p>{`<${vmail[0].from}>`}</p>
-            </div>
-
+              {`${String(vmail[0].from[0])}`}
+            </button>
+            <p
+              style={{
+                marginTop: "7.5px",
+              }}
+            >{`<${vmail[0].from}>`}</p>
+          </div>
+          <div style={{ display: "flex" }}>
+            <p style={{ marginRight: "10px" }}>Subject:</p>
             <p>{vmail[0].subject}</p>
-            <h1>{vmail[0].body}</h1>
-          </fieldset>
+          </div>
+
+          <div
+            style={{
+              width: "60%",
+              height: "60%",
+              fontSize: "1.15rem",
+              marginLeft: "45px",
+            }}
+          >
+            {vmail[0].body}
+          </div>
         </section>
       )}
     </>
