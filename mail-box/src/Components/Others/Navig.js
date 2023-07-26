@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
-
+import { useSelector } from "react-redux";
 const Navig = () => {
   const history = useHistory();
+  const count = useSelector((state) => state.count.count);
   const composeMailHandler = () => {
     history.push("/ComposeMail");
   };
@@ -66,6 +67,15 @@ const Navig = () => {
               }}
             >
               Inbox
+              <button
+                style={{
+                  marginLeft: "5px",
+                  borderRadius: "50%",
+                  backgroundColor: "lightgrey",
+                }}
+              >
+                {count}
+              </button>
             </p>
           </Link>
         </nav>

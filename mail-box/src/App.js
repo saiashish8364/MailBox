@@ -8,8 +8,14 @@ import ComposeMail from "./Components/Pages/ComposeMail";
 import Inbox from "./Components/Pages/Inbox";
 import Navig from "./Components/Others/Navig";
 import ViewMail from "./Components/Pages/ViewMail";
-
+import { useEffect } from "react";
+import { unreadMailCount } from "./Components/Store/UnreadMails";
+import { useDispatch } from "react-redux";
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(unreadMailCount());
+  }, [dispatch]);
   return (
     <>
       <div

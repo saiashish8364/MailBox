@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { viewMailActions } from "../Store/ViewMailSlice";
+import { unreadMailActions } from "../Store/UnreadMails";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const Inbox = () => {
@@ -71,6 +72,7 @@ const Inbox = () => {
             subject: data.subject,
           };
           markAsRead(id, updatedData);
+          dispacth(unreadMailActions.removeReadMails(1));
         }
       }
     } catch (error) {
@@ -80,6 +82,28 @@ const Inbox = () => {
   function getDot(status) {
     return status.state === "unread" ? "blue" : "white";
   }
+  async function deleteMailHandler(e) {
+    try {
+      let em = String(localStorage.getItem("email"));
+      let id = String(e.target.id);
+      const response = await fetch(
+        `https://mail-box-39d58-default-rtdb.asia-southeast1.firebasedatabase.app/Mails/${String(
+          em
+        )}/inbox/${String(id)}.json`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.ok) {
+        console.log("deleted");
+        fetchMails();
+      } else {
+        console.error("Failed to delete mail");
+      }
+    } catch (error) {
+      console.error("Error deleting mail:", error);
+    }
+  }
   return (
     <>
       <section
@@ -87,23 +111,22 @@ const Inbox = () => {
           marginLeft: "220px",
         }}
       >
-        <fieldset>
-          <section
+        <section
+          style={{
+            width: "100%",
+            marginLeft: "2.5px",
+            justifyContent: "space-around",
+            marginTop: "1%",
+          }}
+        >
+          <table
             style={{
-              width: "100%",
-              marginLeft: "2.5px",
-              justifyContent: "space-around",
-              marginTop: "1%",
+              borderCollapse: "collapse",
+              fontFamily: "Trebuchet MS",
             }}
           >
-            <table
-              style={{
-                borderCollapse: "collapse",
-                fontFamily: "Trebuchet MS",
-              }}
-            >
-              <tbody>
-                {/* {Object.entries(inbox).map(([key, email]) => {
+            <tbody>
+              {/* {Object.entries(inbox).map(([key, email]) => {
             return (
               <tr key={key}>
                 <td>{email.subject}</td>
@@ -111,52 +134,69 @@ const Inbox = () => {
               </tr>
             );
           })} */}
-                {inbox.map((mail) => {
-                  return (
-                    <tr
-                      key={mail.id}
-                      id={mail.id}
-                      onClick={() => tableRowOnClickHandler(mail.id)}
+              {inbox.map((mail) => {
+                return (
+                  <tr
+                    key={String(mail.id)}
+                    id={mail.id}
+                    style={{
+                      borderBottom: "1pt solid black",
+                      borderBottomColor: "gray",
+                      height: "35px",
+                      fontSize: "1.1rem",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <td
                       style={{
-                        borderBottom: "1pt solid black",
-                        borderBottomColor: "gray",
-                        height: "35px",
-                        fontSize: "1.1rem",
-                        cursor: "pointer",
+                        width: "350px",
                       }}
+                      onClick={() => tableRowOnClickHandler(mail.id)}
                     >
-                      <td
+                      <span
                         style={{
-                          width: "350px",
+                          display: "inline-block",
+                          width: "8.5px",
+                          height: "8.5px",
+                          backgroundColor: getDot(mail),
+                          borderRadius: "50%",
+                          marginLeft: "5px",
+                          marginRight: "5px",
+                        }}
+                      />
+                      {mail.subject}
+                    </td>
+                    <td
+                      style={{
+                        width: "1400px",
+                      }}
+                      onClick={() => tableRowOnClickHandler(mail.id)}
+                    >
+                      {mail.body}
+                    </td>
+                    <td>
+                      <button
+                        id={mail.id}
+                        onClick={deleteMailHandler}
+                        style={{
+                          marginRight: "20px",
+                          backgroundColor: "#343434",
+                          color: "white",
+                          height: "30px",
+                          width: "75px",
+                          marginBottom: "10px",
+                          borderRadius: "15px",
                         }}
                       >
-                        <span
-                          style={{
-                            display: "inline-block",
-                            width: "8.5px",
-                            height: "8.5px",
-                            backgroundColor: getDot(mail),
-                            borderRadius: "50%",
-                            marginLeft: "5px",
-                            marginRight: "5px",
-                          }}
-                        />
-                        {mail.subject}
-                      </td>
-                      <td
-                        style={{
-                          width: "1400px",
-                        }}
-                      >
-                        {mail.body}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </section>
-        </fieldset>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </section>
       </section>
     </>
   );

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 const ViewMail = () => {
   const vmail = useSelector((state) => state.viewMail.mail);
-  console.log(vmail);
+
   const containData = useSelector((state) => state.viewMail.containData);
   return (
     <>
