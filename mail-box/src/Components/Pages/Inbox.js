@@ -32,8 +32,11 @@ const Inbox = () => {
     }
   }
   useEffect(() => {
-    fetchMails();
+    const interval = setInterval(async () => {
+      await fetchMails();
+    }, 2000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => clearInterval(interval);
   }, []);
   async function markAsRead(id, updatedData) {
     try {
