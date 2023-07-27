@@ -78,6 +78,17 @@ const Navig = () => {
               </button>
             </p>
           </Link>
+          <Link to="/OutBox">
+            <p
+              style={{
+                marginTop: "20px",
+                marginLeft: "35%",
+                color: "white",
+              }}
+            >
+              Outbox
+            </p>
+          </Link>
         </nav>
       </section>
     </>

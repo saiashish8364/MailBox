@@ -11,6 +11,8 @@ import ViewMail from "./Components/Pages/ViewMail";
 import { useEffect } from "react";
 import { unreadMailCount } from "./Components/Store/UnreadMails";
 import { useDispatch } from "react-redux";
+import OutBox from "./Components/Pages/Outbox";
+import ViewSentMail from "./Components/Pages/ViewSentMail";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -56,8 +58,14 @@ function App() {
             <Route path="/Inbox">
               <Inbox />
             </Route>
-            <Route path="/ViewMail">
+            <Route path="/ViewMail" exact>
               <ViewMail />
+            </Route>
+            <Route path="/OutBox" exact>
+              <OutBox />
+            </Route>
+            <Route path="/ViewSentMail" exact>
+              <ViewSentMail />
             </Route>
           </Switch>
         </Suspense>
