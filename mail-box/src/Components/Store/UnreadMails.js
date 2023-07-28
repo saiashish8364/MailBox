@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const UnreadMailsSlice = createSlice({
   name: "unread-mails",
   initialState: {
@@ -11,6 +10,9 @@ const UnreadMailsSlice = createSlice({
     },
     removeReadMails(state, action) {
       state.count = Number(state.count) - Number(action.payload);
+    },
+    setToZero(state) {
+      state.count = 0;
     },
   },
 });

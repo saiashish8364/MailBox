@@ -13,11 +13,25 @@ import { unreadMailCount } from "./Components/Store/UnreadMails";
 import { useDispatch } from "react-redux";
 import OutBox from "./Components/Pages/Outbox";
 import ViewSentMail from "./Components/Pages/ViewSentMail";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { authActions } from "./Components/Store/AuthSlice";
+import { unreadMailActions } from "./Components/Store/UnreadMails";
 function App() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   useEffect(() => {
     dispatch(unreadMailCount());
   }, [dispatch]);
+  function logoutHandler() {
+    history.push("/LogIn");
+    dispatch(authActions.logout());
+    dispatch(unreadMailActions.setToZero());
+    localStorage.removeItem("from");
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+  }
   return (
     <>
       <div
@@ -38,13 +52,15 @@ function App() {
         >
           Firebase Mail Box
         </p>
+        <button onClick={logoutHandler}>Logout</button>
       </div>
       <Navig />
       <main>
         <Suspense>
           <Switch>
             <Route path="/" exact>
-              <Home />
+              {isLoggedIn && <Home />}
+              {!isLoggedIn && <LogIn />}
             </Route>
             <Route path="/SignUp" exact>
               <SignUp />
@@ -53,19 +69,24 @@ function App() {
               <LogIn />
             </Route>
             <Route path="/ComposeMail" exact>
-              <ComposeMail />
+              {isLoggedIn && <ComposeMail />}
+              {!isLoggedIn && <LogIn />}
             </Route>
             <Route path="/Inbox">
-              <Inbox />
+              {isLoggedIn && <Inbox />}
+              {!isLoggedIn && <LogIn />}
             </Route>
             <Route path="/ViewMail" exact>
-              <ViewMail />
+              {isLoggedIn && <ViewMail />}
+              {!isLoggedIn && <LogIn />}
             </Route>
             <Route path="/OutBox" exact>
-              <OutBox />
+              {isLoggedIn && <OutBox />}
+              {!isLoggedIn && <LogIn />}
             </Route>
             <Route path="/ViewSentMail" exact>
-              <ViewSentMail />
+              {isLoggedIn && <ViewSentMail />}
+              {!isLoggedIn && <LogIn />}
             </Route>
           </Switch>
         </Suspense>

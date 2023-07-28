@@ -3,11 +3,13 @@ import { useDispatch } from "react-redux";
 import { viewMailActions } from "../Store/ViewMailSlice";
 import { unreadMailActions } from "../Store/UnreadMails";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useSelector } from "react-redux";
 
 const Inbox = () => {
   const [inbox, setInbox] = useState([]);
   const dispacth = useDispatch();
   const history = useHistory();
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
 
   async function fetchMails() {
     try {
@@ -35,25 +37,28 @@ const Inbox = () => {
     const interval = setInterval(async () => {
       await fetchMails();
     }, 2000);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     return () => clearInterval(interval);
   }, []);
   async function markAsRead(id, updatedData) {
-    try {
-      await fetch(
-        `https://mail-box-39d58-default-rtdb.asia-southeast1.firebasedatabase.app/Mails/${String(
-          localStorage.getItem("email")
-        )}/inbox/${String(id)}.json`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedData),
-        }
-      );
-    } catch (error) {
-      console.log(error);
+    if (isLoggedIn) {
+      try {
+        await fetch(
+          `https://mail-box-39d58-default-rtdb.asia-southeast1.firebasedatabase.app/Mails/${String(
+            localStorage.getItem("email")
+          )}/inbox/${String(id)}.json`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedData),
+          }
+        );
+      } catch (error) {
+        alert(error);
+      }
     }
   }
   async function tableRowOnClickHandler(id) {

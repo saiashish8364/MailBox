@@ -1,5 +1,8 @@
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { authActions } from "../Store/AuthSlice";
+import { useDispatch } from "react-redux";
+import { unreadMailCount } from "../Store/UnreadMails";
 
 const LogIn = () => {
   const [email, setEmail] = useState(false);
@@ -7,6 +10,7 @@ const LogIn = () => {
   const mailInputRef = useRef();
   const passwordInputRef = useRef();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   function mailChangeHandler() {
     setEmail(true);
@@ -37,7 +41,7 @@ const LogIn = () => {
       );
       if (response.ok) {
         const res = await response.json();
-        //dispatch(authActions.login(String(res.idToken)));
+        dispatch(authActions.login(String(res.idToken)));
         history.push("/");
         localStorage.setItem("token", res.idToken);
         let re = mailInputRef.current.value;
@@ -49,13 +53,13 @@ const LogIn = () => {
         }
         localStorage.setItem("email", mail);
         localStorage.setItem("from", mailInputRef.current.value);
-        console.log("user Logged in successfully.");
+        dispatch(unreadMailCount());
+        alert("user Logged in successfully.");
       } else {
         alert("Invalid Login details! check your details and try again");
       }
     } catch (error) {
       alert(error);
-      console.log(error);
     }
     mailInputRef.current.value = "";
     passwordInputRef.current.value = "";
